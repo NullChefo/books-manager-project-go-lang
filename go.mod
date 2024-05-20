@@ -1,3 +1,3 @@
-module github.com/nullchefo/books-menager-project-go-lang
+module github.com/nullchefo/books-manager-project-go-lang
 
 go 1.22
