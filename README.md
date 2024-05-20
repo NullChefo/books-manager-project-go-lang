@@ -1,6 +1,7 @@
 ## Abstraction for Working with Databases
 
-Develop a package for generating SQL queries (Query builder) that includes an implementation of the public API described in the table below. For greater flexibility and convenience, the arguments and return types are deliberately omitted.
+Develop a package for generating SQL queries (Query builder) that includes an implementation of the public API described
+in the table below. For greater flexibility and convenience, the arguments and return types are deliberately omitted.
 
 <table>
     <thead>
@@ -48,6 +49,7 @@ Develop a package for generating SQL queries (Query builder) that includes an im
 ## WEB API for Book Management
 
 Develop a WEB API for managing books. A book consists of the following attributes:
+
 - title
 - ISBN
 - author
@@ -113,4 +115,5 @@ Implement the following public API endpoints.
 
 ### Project Submission
 
-After developing the project, send a link to your GitHub repository in the assignment posted in Google Classroom. The deadline for the project is the end of the semester.
+After developing the project, send a link to your GitHub repository in the assignment posted in Google Classroom. The
+deadline for the project is the end of the semester.

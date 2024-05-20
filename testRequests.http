@@ -1,0 +1,12 @@
+# curl --location 'http://localhost:8080/books?page=1&size=10'
+GET http://localhost:8080/books?page=1&size=10
+
+###
+
+GET http://localhost:8080/allBooks
+Accept: application/json
+
+###
+
+
+
