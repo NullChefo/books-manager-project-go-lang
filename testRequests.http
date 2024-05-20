@@ -23,8 +23,7 @@ Content-Type: application/json
   "title": "Sample Book Title",
   "isbn": "123-4567890123",
   "author": "John Doe",
-  "year_of_publication": 2023,
-  "test_field": "Sample Test Field"
+  "year_of_publication": 2023
 }
 
 ###
@@ -36,8 +35,7 @@ Content-Type: application/json
   "title": "Sample Book Title",
   "isbn": "123-4567890123",
   "author": "John Doe",
-  "year_of_publication": 2023,
-  "test_field": "Sample Test Field"
+  "year_of_publication": 2023
 }
 
 ###
