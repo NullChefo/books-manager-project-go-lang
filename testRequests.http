@@ -1,12 +1,45 @@
-# curl --location 'http://localhost:8080/books?page=1&size=10'
-GET http://localhost:8080/books?page=1&size=10
+# Go-lang-books
 
 ###
+# @name get books paginated
+GET http://localhost:8080/books?
+    page=1&
+    size=10
 
+###
+# @name get allBooks
 GET http://localhost:8080/allBooks
-Accept: application/json
 
 ###
+# @name get book by id
+GET http://localhost:8080/books/1
 
+###
+# @name create book
+POST http://localhost:8080/books
+Content-Type: application/json
 
+{
+  "title": "Sample Book Title",
+  "isbn": "123-4567890123",
+  "author": "John Doe",
+  "year_of_publication": 2023,
+  "test_field": "Sample Test Field"
+}
 
+###
+# @name put book
+PUT http://localhost:8080/books/1
+Content-Type: application/json
+
+{
+  "title": "Sample Book Title",
+  "isbn": "123-4567890123",
+  "author": "John Doe",
+  "year_of_publication": 2023,
+  "test_field": "Sample Test Field"
+}
+
+###
+# @name delete book
+DELETE http://localhost:8080/books/1
