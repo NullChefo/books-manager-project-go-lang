@@ -1,17 +1,57 @@
-FROM golang:1.22-bookworm AS build
-LABEL authors="stefan kehayov"
+ARG  BUILDER_IMAGE=golang:alpine
+############################
+# STEP 1 build executable binary
+############################
+FROM ${BUILDER_IMAGE} as builder
 
-WORKDIR /usr/src/books-manager-project-go-lang
+# Install git + SSL ca certificates.
+# Git is required for fetching the dependencies.
+# Ca-certificates is required to call HTTPS endpoints.
+RUN apk update && apk add --no-cache git ca-certificates tzdata && update-ca-certificates
 
-COPY go.mod go.sum ./
+# Create appuser
+ENV USER=appuser
+ENV UID=10001
+
+# See https://stackoverflow.com/a/55757473/12429735
+RUN adduser \
+    --disabled-password \
+    --gecos "" \
+    --home "/nonexistent" \
+    --shell "/sbin/nologin" \
+    --no-create-home \
+    --uid "${UID}" \
+    "${USER}"
+WORKDIR $GOPATH/src/mypackage/myapp/
+COPY . .
+
+# Fetch dependencies.
+RUN go get -d -v
+
+#COPY go.mod go.sum ./
 RUN go mod download && go mod verify
 
-COPY . .
-RUN CGO_ENABLED=0 GOOS=linux go install -ldflags "-s -w" -trimpath -v github.com/nullchefo/books-manager-project-go-lang
+RUN CGO_ENABLED=0 go build \
+        -ldflags='-w -s -extldflags "-static"' -a \
+        -o /go/bin/books-manager .
 
+############################
+# STEP 2 build a small image
+############################
+FROM scratch
 
-FROM scratch AS release
-COPY books-manager-project-go-lang /
+# Import from builder.
+COPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=builder /etc/passwd /etc/passwd
+COPY --from=builder /etc/group /etc/group
 
+# Copy our static executable
+COPY --from=builder /go/bin/books-manager /go/bin/books-manager
+
+# Use an unprivileged user.
+USER appuser:appuser
+
+# Run the binary.
 EXPOSE 8080
-ENTRYPOINT ["/books-manager-project-go-lang", "-listen-addr=0.0.0.0"]
+ENTRYPOINT ["/go/bin/books-manager", "-listen-addr=0.0.0.0"]
